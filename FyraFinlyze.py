@@ -6,7 +6,7 @@ from datetime import datetime, timedelta
 import os
 
 # --- CONFIG ---
-os.environ["GROQ_API_KEY"] = "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"
+os.environ["GROQ_API_KEY"] = "PASTE YOUR API URL HERE FROM GROQ" #IMPORTANT 
 client = Groq(api_key=os.environ["GROQ_API_KEY"])
 
 st.set_page_config(page_title="Fyra Finlyze", page_icon="💸", layout="wide")
@@ -87,7 +87,7 @@ if uploaded_file:
 
         # Otherwise use Groq LLM
         response = client.chat.completions.create(
-            model="llama-3.1-8b-instant",
+            model="llama-3.1-8b-instant", #IMPORTANT  #IF THIS MODEL GET DECOMISSIONED , GET A NEW WORKINGMODEL FROM GROQ
             messages=[
                 {
                     "role": "system",
