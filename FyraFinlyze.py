@@ -5,30 +5,30 @@ from groq import Groq
 from datetime import datetime, timedelta
 import os
 
-# --- CONFIG ---
+#CONFIG
 os.environ["GROQ_API_KEY"] = "PASTE YOUR API URL HERE FROM GROQ" #IMPORTANT 
 client = Groq(api_key=os.environ["GROQ_API_KEY"])
 
 st.set_page_config(page_title="Fyra Finlyze", page_icon="💸", layout="wide")
 
-# --- PAGE TITLE ---
+#PAGE TITLE
 st.markdown(
     """
-    <h1 style='color:#FFFFFF; text-align:center;'>💸 Fyra Finlyze — Your Smart Finance Assistant</h1>
+    <h1 style='color:#FFFFFF; text-align:center;'> Fyra Finlyze — Your Smart Finance Assistant</h1>
     """,
     unsafe_allow_html=True
 )
 
-# --- FILE UPLOAD ---
+#FILE UPLOAD
 uploaded_file = st.file_uploader(
-    "📂 Upload your UPI/finance Excel file (.xlsx) with columns: Date, Category, Merchant, Amount (₹), Mode, Description",
+    " Upload your UPI/finance Excel file (.xlsx) with columns: Date, Category, Merchant, Amount (₹), Mode, Description",
     type=["xlsx"]
 )
 
 if uploaded_file:
     df = pd.read_excel(uploaded_file)
 
-    # --- CLEAN DATA ---
+    #CLEAN DATA
     df = df.rename(columns={
         'Date': 'Date',
         'Category': 'Category',
@@ -42,7 +42,7 @@ if uploaded_file:
     df = df.dropna(subset=["Date", "Amount"])
     df["Amount"] = df["Amount"].astype(float)
 
-    # --- SUMMARY FUNCTION ---
+    #SUMMARY FUNCTION
     def generate_summary():
         summary = {
             "total_spent": round(df["Amount"].sum(), 2),
@@ -62,11 +62,11 @@ if uploaded_file:
             summary[f"{mode}_total_spent"] = round(mode_data["Amount"].sum(), 2)
         return summary
 
-    # --- CLEAN RESPONSE ---
+    #CLEAN RESPONSE
     def clean_response(text):
         return text.replace("**", "").replace("*", "")
 
-    # --- CHAT FUNCTION ---
+    #CHAT FUNCTION
     def query_fyra(user_input):
         summary = generate_summary()
         user_lower = user_input.lower()
@@ -106,7 +106,7 @@ if uploaded_file:
         )
         return clean_response(response.choices[0].message.content.strip())
 
-    # --- CHAT UI ---
+    #CHAT UI
     if 'messages' not in st.session_state:
         st.session_state['messages'] = []
 
@@ -117,7 +117,7 @@ if uploaded_file:
         answer = query_fyra(user_input)
         st.session_state.messages.append({"role": "assistant", "content": answer})
 
-    # --- DISPLAY CHAT ---
+    #DISPLAY CHAT
     for msg in st.session_state.messages:
         # User messages (green left boxes)
         if msg["role"] == "user":
