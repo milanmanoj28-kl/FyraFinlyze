@@ -21,7 +21,7 @@ st.markdown(
 
 #FILE UPLOAD
 uploaded_file = st.file_uploader(
-    " Upload your UPI/finance Excel file (.xlsx) with columns: Date, Category, Merchant, Amount (₹), Mode, Description",
+    " Upload your Transanction Data",
     type=["xlsx"]
 )
 
